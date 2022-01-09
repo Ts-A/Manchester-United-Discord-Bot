@@ -1,0 +1,26 @@
+{
+  "name": "mun-discord-bot",
+  "version": "1.0.0",
+  "description": "Manchester united lineups and match updates for MANu homies",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "fmt": "npx prettier --write src/",
+    "deploy-commands": "node src/deploy-commands.js"
+  },
+  "author": "T S Ajeet",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "prettier": "2.5.1"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.11.0",
+    "@discordjs/rest": "^0.2.0-canary.0",
+    "discord-api-types": "^0.26.1",
+    "discord.js": "^13.5.1",
+    "dotenv": "^10.0.0",
+    "module-alias": "^2.2.2"
+  }
+}

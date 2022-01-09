@@ -1,16 +1,21 @@
 require('dotenv').config();
-const { SlashCommandBuilder } = require('@discordjs/builders');
+
+const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const path = require('path');
 const { DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID, DISCORD_GUILD_ID } = process.env;
 
-const commands = [
-  new SlashCommandBuilder().setName('ping').setDescription('Returns pong'),
-  new SlashCommandBuilder().setName('user').setDescription('Returns user info'),
-  new SlashCommandBuilder()
-    .setName('best-club')
-    .setDescription('Returns the best club in the world'),
-].map((command) => command.toJSON());
+const commands = [];
+console.log(__dirname);
+const commandFiles = fs
+  .readdirSync(`${path.join(__dirname, '/commands')}`)
+  .filter((file) => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+  commands.push(command.data.toJSON());
+}
 
 const rest = new REST({ version: 9 }).setToken(DISCORD_BOT_TOKEN);
 

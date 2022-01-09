@@ -19,25 +19,14 @@ for (const file of commandFiles) {
   client.commands.set(command.data.name, command);
 }
 
-client.once('ready', () => console.log('Manchester united discord bot ready'));
+const eventFiles = fs
+  .readdirSync(`${path.join(__dirname, '/events')}`)
+  .filter((file) => file.endsWith('.js'));
 
-client.on('interactionCreate', async (interaction) => {
-  try {
-    if (!interaction.isCommand())
-      return await interaction.reply(
-        'Sorry, I do not understand what you mean.'
-      );
-
-    const command = client.commands.get(interaction.commandName);
-
-    await command.execute(interaction);
-  } catch (error) {
-    console.log(error);
-    await interaction.reply({
-      content: 'There was an error while executing this command!',
-      ephemeral: true,
-    });
-  }
-});
+for (const file of eventFiles) {
+  const event = require(`./events/${file}`);
+  if (event.once) client.once(event.name, (...args) => event.execute(...args));
+  else client.on(event.name, (...args) => event.execute(client, ...args));
+}
 
 client.login(DISCORD_BOT_TOKEN);

@@ -1,13 +1,13 @@
 require('dotenv').config();
 
 const fs = require('fs');
+const path = require('path');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const path = require('path');
+
 const { DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID, DISCORD_GUILD_ID } = process.env;
 
 const commands = [];
-console.log(__dirname);
 const commandFiles = fs
   .readdirSync(`${path.join(__dirname, '/commands')}`)
   .filter((file) => file.endsWith('.js'));

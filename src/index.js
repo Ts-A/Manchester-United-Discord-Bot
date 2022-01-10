@@ -1,12 +1,14 @@
 require('dotenv').config();
-console.log('Manchester united discord bot started');
+require('module-alias/register');
 
-const { Client, Intents } = require('discord.js');
+const DiscordClient = require('@config/discord-client');
+const { Collection } = require('discord.js');
 
 const { DISCORD_BOT_TOKEN } = process.env;
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+DiscordClient.commands = new Collection();
 
-client.once('ready', () => console.log('Manchester united discord bot ready'));
+require('./config/getCommands')(DiscordClient);
+require('./config/getEvents')(DiscordClient);
 
-client.login(DISCORD_BOT_TOKEN);
+DiscordClient.login(DISCORD_BOT_TOKEN);
